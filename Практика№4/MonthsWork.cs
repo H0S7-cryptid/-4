@@ -70,7 +70,9 @@ namespace Практика_4
                 {
                     Console.WriteLine("\tВывод данных по заданной длине строки");
                     Console.WriteLine("\tLINQ - Запросы");
-                    var sertainLenStr = from m in months where m.Length == len select m;
+                    var sertainLenStr = from m in months 
+                                        where m.Length == len 
+                                        select m;
                     foreach (var item in sertainLenStr) Console.WriteLine(item);
 
                     Console.WriteLine("\tLINQ - Методы расширения");
