@@ -1,10 +1,13 @@
-﻿namespace Практика_4
+﻿using System.Linq;
+
+namespace Практика_4
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            MonthsWork monthsWork = new MonthsWork();
+            monthsWork.WorkWithMonthsArray();
         }
     }
 }
