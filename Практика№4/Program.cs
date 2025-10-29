@@ -8,8 +8,8 @@ namespace Практика_4
     {
         static void Main(string[] args)
         {
-            /*MonthsWork monthsWork = new MonthsWork();
-            monthsWork.WorkWithMonthsArray();*/
+            MonthsWork monthsWork = new MonthsWork();
+            monthsWork.WorkWithMonthsArray();
 
             List<Student> studs = new List<Student>();
             studs.Add(new Student("Александр", "Иванов", "Алексеевич", 
@@ -124,7 +124,7 @@ namespace Практика_4
 
         static private void WorkWithExtMethods(List<Student> studs)
         {
-            Console.WriteLine("\t\t\tРабота с запросами методами расширения\n\n");
+            Console.WriteLine("\t\t\tРабота с методами расширения LINQ\n\n");
             Console.WriteLine("\tНахождение всех студентов данного курса\n\tВведите номер курса:");
             var n = InputNum();
             var allCoarsed = studs.Where(s => s.Course == n);

@@ -10,7 +10,6 @@ namespace Практика_4
     {
         public void WorkWithMonthsArray()
         {
-            // Первая часть работы
             Console.WriteLine("Изначальный массив с данными: ");
             var months = new string[] { "January", "February", "March", "April",
                 "May", "June", "July", "August", "September", "November", "December" };
@@ -19,50 +18,44 @@ namespace Практика_4
 
             FindLength(months);
 
-            Console.WriteLine("\tВыбор летних и зимних месяцев в массиве: ");
-            Console.WriteLine("\tLINQ - Запросы");
+            Console.WriteLine("Выбор летних и зимних месяцев в массиве:\n");
+            Console.WriteLine("\tLINQ - Запросы\n");
             var summerAndWinter1 = from m in months
                                    where m == "June" || m == "July" || m == "August"
                                    || m == "December" || m == "January" || m == "February"
                                    select m;
-            foreach (var item in summerAndWinter1) Console.Write(item + " ");
-            Console.WriteLine();
-
-            Console.WriteLine("\tLINQ - Методы расширения");
+            PrintAll(summerAndWinter1);
+            Console.WriteLine("\tLINQ - Методы расширения\n");
             var summerAndWinter2 = months.Where(m => m == "June" || m == "July" || m == "August"
                                     || m == "December" || m == "January" || m == "February");
-            foreach (var item in summerAndWinter1) Console.Write(item + " ");
-            Console.WriteLine("\n");
+            PrintAll(summerAndWinter2);
 
-            Console.WriteLine("\tВывод данных по алфавиту: ");
-            Console.WriteLine("\tLINQ - Запросы");
+
+            Console.WriteLine("Вывод данных по алфавиту:\n");
+            Console.WriteLine("\tLINQ - Запросы\n");
             var orderedMonths1 = from m in months
                                  orderby m
                                  select m;
-            foreach (var item in orderedMonths1) Console.Write(item + " ");
-            Console.WriteLine();
-
-            Console.WriteLine("\tLINQ - Методы расширения");
+            PrintAll(orderedMonths1);
+            Console.WriteLine("\tLINQ - Методы расширения\n");
             var orderedMonths2 = months.OrderBy(m => m);
-            foreach (var item in orderedMonths2) Console.Write(item + " ");
-            Console.WriteLine("\n");
+            PrintAll(orderedMonths2);
 
-            Console.WriteLine("\tНахождение строк, содержащих \"u\" и длиной не менее 4 символов: ");
-            Console.WriteLine("\tLINQ - Запросы");
+
+            Console.WriteLine("Нахождение строк, содержащих \"u\" и длиной не менее 4 символов:\n");
+            Console.WriteLine("\tLINQ - Запросы\n");
             var selectedUnderCondition1 = from m in months
                                           where m.Contains("u") && m.Length >= 4
                                           select m;
-            foreach (var item in selectedUnderCondition1) Console.Write(item + " ");
-            Console.WriteLine();
-
-            Console.WriteLine("\tLINQ - методы расширения");
+            PrintAll(selectedUnderCondition1);
+            Console.WriteLine("\tLINQ - методы расширения\n");
             var selectedUnderCondition2 = months.Where(m => m.Length >= 4 && m.Contains("u"));
-            foreach (var item in selectedUnderCondition2) Console.Write(item + " ");
-            Console.WriteLine();
+            PrintAll(selectedUnderCondition2);
         }
 
         private void FindLength(string[] months)
         {
+            Console.WriteLine("Введите длину названия месяца: ");
             while (true)
             {
                 if (int.TryParse(Console.ReadLine(), out var len) &&
@@ -70,8 +63,8 @@ namespace Практика_4
                 {
                     Console.WriteLine("\tВывод данных по заданной длине строки");
                     Console.WriteLine("\tLINQ - Запросы");
-                    var sertainLenStr = from m in months 
-                                        where m.Length == len 
+                    var sertainLenStr = from m in months
+                                        where m.Length == len
                                         select m;
                     foreach (var item in sertainLenStr) Console.WriteLine(item);
 
@@ -79,11 +72,23 @@ namespace Практика_4
                     sertainLenStr = months.Where(m => m.Length == len);
                     foreach (var item in sertainLenStr) Console.WriteLine(item);
 
-                    break;
+                    break; // Выход из цикла после печати нужных данных
                 }
-                else Console.WriteLine("Wrong length! Try again");
+                else Console.WriteLine("Неверно введена длина! Повторите ввод:");
             }
 
+        }
+
+        private void PrintAll(IEnumerable<string>? someMonths)
+        {
+            Console.WriteLine("\tИтог");
+            if (someMonths.Count() == 0)
+            {
+                Console.WriteLine("Нет таких месяцев!");
+                return;
+            }
+            foreach (var item in someMonths) Console.WriteLine(item + " ");
+            Console.WriteLine();
         }
     }
 }
