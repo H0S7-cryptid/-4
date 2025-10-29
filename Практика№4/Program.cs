@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Практика_4
 {
@@ -54,41 +55,11 @@ namespace Практика_4
 
             Console.WriteLine("Существующий список студентов: ");
             foreach (var item in studs) Console.WriteLine(item);
+            Console.WriteLine();
 
-            Console.WriteLine("\tНахождение всех студентов данного курса\n\tВведите номер курса:");
-            var n = InputNum();
-            var onCourse = from s in studs
-                           where s.Course == n
-                           select s;
-            Console.WriteLine("\tИтог:");
-            foreach(var item in onCourse) Console.WriteLine(item);
+            WorkWithLINQ(studs);
 
-            Console.WriteLine("\tНахождение самых молодых студентов:");
-            var youngest = (from s in studs
-                           orderby s.DateOfBirth descending
-                           select s).First().DateOfBirth;
-            var youngestStuds = from s in studs
-                       where s.DateOfBirth == youngest
-                       select s;
-            Console.WriteLine("\tИтог");
-            foreach (var item in youngestStuds) Console.WriteLine(item);
-
-            Console.WriteLine("\tНахождение студентов заданной группы:\n\tВведите название существующей группы:");
-            var grouppa = Console.ReadLine();
-            var grouped = from s in studs
-                          where s.GroupName == grouppa
-                          select s;
-            Console.WriteLine("\tИтог");
-            foreach(var item in grouped) Console.WriteLine(item);
-
-            Console.WriteLine("\tУпорядоченный список людей по фамилиям:");
-            Console.WriteLine("\tВведите существующую фамилию: ");
-            var lastName = Console.ReadLine();
-            var allLastNamed = from s in studs
-                               where s.LastName == lastName
-                               select s;
-            Console.WriteLine("\tИтог");
-            foreach (var item in allLastNamed) Console.WriteLine(item);
+            WorkWithExtMethods(studs);
         }
 
         static private int InputNum()
@@ -99,6 +70,84 @@ namespace Практика_4
                     return num;
                 Console.WriteLine("Неверный ввод! Повторите: ");
             }
+        }
+
+        static private void PrintAll(IEnumerable<Student> someStuds)
+        {
+            Console.WriteLine("\tИтог:");
+            if (someStuds.Count() == 0)
+            {
+                Console.WriteLine("\t\tНет таких студентов!\n");
+                return;
+            }
+            foreach (var item in someStuds) Console.WriteLine("\t\t" + item);
+            Console.WriteLine();
+        }
+
+        static private void WorkWithLINQ(List<Student> studs)
+        {
+            Console.WriteLine("\t\t\tРабота с запросами LINQ\n");
+
+            Console.WriteLine("\tНахождение всех студентов данного курса\n\tВведите номер курса:");
+            var n = InputNum();
+            var onCourse = from s in studs
+                           where s.Course == n
+                           select s;
+            PrintAll(onCourse);
+
+
+            Console.WriteLine("\tНахождение самых молодых студентов:");
+            var youngestStuds = from s in studs
+                                where s.DateOfBirth == (from s2 in studs
+                                                        orderby s2.DateOfBirth descending
+                                                        select s2).First().DateOfBirth
+                                select s;
+            PrintAll(youngestStuds);
+
+
+            Console.WriteLine("\tНахождение студентов заданной группы:\n\tВведите название существующей группы:");
+            var grouppa = Console.ReadLine();
+            var grouped = from s in studs
+                          where s.GroupName == grouppa
+                          select s;
+            PrintAll(grouped);
+
+
+            Console.WriteLine("\tУпорядоченный список людей по фамилиям:");
+            Console.WriteLine("\tВведите существующую фамилию: ");
+            var lastName = Console.ReadLine();
+            var allLastNamed = from s in studs
+                               where s.LastName == lastName
+                               select s;
+            PrintAll(allLastNamed);
+        }
+
+        static private void WorkWithExtMethods(List<Student> studs)
+        {
+            Console.WriteLine("\t\t\tРабота с запросами методами расширения\n\n");
+            Console.WriteLine("\tНахождение всех студентов данного курса\n\tВведите номер курса:");
+            var n = InputNum();
+            var allCoarsed = studs.Where(s => s.Course == n);
+            PrintAll(allCoarsed);
+
+
+            Console.WriteLine("\tНахождение самых молодых студентов:");
+            var youngestStuds = studs.Where(s => s.DateOfBirth == 
+                                        studs.OrderByDescending(s => s.DateOfBirth).First().DateOfBirth);
+            PrintAll(youngestStuds);
+
+
+            Console.WriteLine("\tНахождение студентов заданной группы:\n\tВведите название существующей группы:");
+            var grouppa = Console.ReadLine();
+            var groupped = studs.Where(s => s.GroupName == grouppa);
+            PrintAll(groupped);
+
+
+            Console.WriteLine("\tУпорядоченный список людей по фамилиям:");
+            Console.WriteLine("\tВведите существующую фамилию: ");
+            var lastName = Console.ReadLine();
+            var allLastNamed = studs.Where(s => s.LastName == lastName);
+            PrintAll(allLastNamed);
         }
     }
 }
