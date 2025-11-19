@@ -10,7 +10,7 @@ namespace Практика_4
     {
         public void WorkWithMonthsArray()
         {
-            Console.WriteLine("Изначальный массив с данными: ");
+            Console.WriteLine("\t\tИзначальный массив с данными: ");
             var months = new string[] { "January", "February", "March", "April",
                 "May", "June", "July", "August", "September", "November", "December" };
             foreach (var item in months) Console.Write(item + " ");
@@ -18,7 +18,7 @@ namespace Практика_4
 
             FindLength(months);
 
-            Console.WriteLine("Выбор летних и зимних месяцев в массиве:\n");
+            Console.WriteLine("\t\tВыбор летних и зимних месяцев в массиве:\n");
             Console.WriteLine("\tLINQ - Запросы\n");
             var summerAndWinter1 = from m in months
                                    where m == "June" || m == "July" || m == "August"
@@ -31,7 +31,7 @@ namespace Практика_4
             PrintAll(summerAndWinter2);
 
 
-            Console.WriteLine("Вывод данных по алфавиту:\n");
+            Console.WriteLine("\t\tВывод данных по алфавиту:\n");
             Console.WriteLine("\tLINQ - Запросы\n");
             var orderedMonths1 = from m in months
                                  orderby m
@@ -42,15 +42,15 @@ namespace Практика_4
             PrintAll(orderedMonths2);
 
 
-            Console.WriteLine("Нахождение строк, содержащих \"u\" и длиной не менее 4 символов:\n");
+            Console.WriteLine("\t\tНахождение строк, содержащих \"u\" и длиной не менее 4 символов:\n");
             Console.WriteLine("\tLINQ - Запросы\n");
             var selectedUnderCondition1 = from m in months
                                           where m.Contains("u") && m.Length >= 4
                                           select m;
-            PrintAll(selectedUnderCondition1);
+            Console.WriteLine($"\t\tКоличество строк, которые содержат в себе букву \"u\": {selectedUnderCondition1.Count()}");
             Console.WriteLine("\tLINQ - методы расширения\n");
-            var selectedUnderCondition2 = months.Where(m => m.Length >= 4 && m.Contains("u"));
-            PrintAll(selectedUnderCondition2);
+            var selectedUnderCondition2 = months.Where(m => m.Length >= 4 && m.Contains("u")).Count();
+            Console.WriteLine($"Количество строк, которые содержат в себе букву \"u\": {selectedUnderCondition2}\n\n");
         }
 
         private void FindLength(string[] months)
